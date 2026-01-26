@@ -1,0 +1,37 @@
+# Docker Compose 設定ファイル
+# 公式ドキュメント: https://docs.docker.com/reference/compose-file/
+
+services:
+  mysql:
+    # 使用するDockerイメージ
+    # 公式イメージ: https://hub.docker.com/_/mysql
+    image: mysql:8.0
+    # コンテナ名（docker exec等で指定する名前）
+    container_name: mysql-local
+    # 環境変数
+    # 公式ドキュメント: https://hub.docker.com/_/mysql の "Environment Variables" セクション
+    environment:
+      # rootユーザーのパスワード（必須）
+      MYSQL_ROOT_PASSWORD: root
+      # 初期作成するデータベース名
+      MYSQL_DATABASE: orderdb
+      # 作成する一般ユーザー名
+      MYSQL_USER: appuser
+      # 一般ユーザーのパスワード
+      MYSQL_PASSWORD: apppass
+    # ポートマッピング（ホスト:コンテナ）
+    ports:
+      - "3306:3306"
+    # ボリュームマウント
+    volumes:
+      # データ永続化（コンテナ削除後もデータを保持）
+      - mysql-data:/var/lib/mysql
+      # 初期化SQL格納ディレクトリ（初回起動時のみ実行）
+      - ./docker:/docker-entrypoint-initdb.d
+    # MySQLサーバー起動オプション（文字コードをUTF-8に設定）
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+# 名前付きボリュームの定義
+volumes:
+  # MySQLデータ永続化用ボリューム
+  mysql-data:

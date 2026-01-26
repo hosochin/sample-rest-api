@@ -1,0 +1,34 @@
+# Spring Boot 設定ファイル
+# 公式ドキュメント: https://docs.spring.io/spring-boot/appendix/application-properties/index.html
+
+spring:
+  application:
+    # アプリケーション名（ログやモニタリングで識別に使用）
+    name: cording-test
+
+  # データソース設定
+  # 公式ドキュメント: https://docs.spring.io/spring-boot/reference/data/sql.html#data.sql.datasource
+  datasource:
+    # JDBCドライバのクラス名（MySQL Connector/J 8.x用）
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # JDBC接続URL（characterEncoding=UTF-8で文字化け防止）
+    url: jdbc:mysql://localhost:3306/orderdb?characterEncoding=UTF-8
+    # DB接続ユーザー名
+    username: root
+    # DB接続パスワード
+    password: root
+
+  # JPA設定
+  # 公式ドキュメント: https://docs.spring.io/spring-boot/reference/data/sql.html#data.sql.jpa-and-spring-data
+  jpa:
+    # 使用するデータベースの種類
+    database: MYSQL
+    # 実行されるSQLをコンソールに出力（開発用、本番ではfalse推奨）
+    show-sql: true
+    hibernate:
+      # スキーマ管理方法
+      # - validate: スキーマを検証のみ（本番推奨）
+      # - update: 差分を自動反映（開発用）
+      # - create: 起動時に再作成
+      # - create-drop: 起動時に作成、終了時に削除
+      ddl-auto: validate
