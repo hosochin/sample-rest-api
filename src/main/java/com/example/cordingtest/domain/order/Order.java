@@ -25,4 +25,9 @@ public class Order {
   private Integer quantity;
 
   private LocalDateTime createdAt;
+
+  public void update(String productName, Integer quantity) {
+    this.productName = productName;
+    this.quantity = quantity;
+  }
 }

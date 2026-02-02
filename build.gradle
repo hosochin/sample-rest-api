@@ -43,6 +43,7 @@ dependencies {
     // Spring MVC（REST API構築用）
     // 公式: https://docs.spring.io/spring-boot/reference/web/servlet.html
     implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     // Lombok（getter/constructorなどのボイラープレート削減）
     // 公式: https://projectlombok.org/
     compileOnly 'org.projectlombok:lombok'
