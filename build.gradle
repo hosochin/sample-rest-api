@@ -1,7 +1,14 @@
 plugins {
+    // Java言語サポート
     id 'java'
+    // Spring Bootアプリケーションのビルド・パッケージング
+    // 公式: https://docs.spring.io/spring-boot/gradle-plugin/index.html
     id 'org.springframework.boot' version '4.0.1'
+    // Spring関連ライブラリのバージョンを自動管理
     id 'io.spring.dependency-management' version '1.1.7'
+    // コードフォーマッター（Google Java Styleなど）
+    // 公式: https://github.com/diffplug/spotless
+    id 'com.diffplug.spotless' version '6.25.0'
 }
 
 group = 'com.example'
@@ -10,34 +17,80 @@ description = 'cording-test'
 
 java {
     toolchain {
+        // 使用するJavaバージョン
         languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
 configurations {
     compileOnly {
+        // compileOnlyスコープでアノテーションプロセッサを使えるようにする（Lombok用）
         extendsFrom annotationProcessor
     }
 }
 
 repositories {
+    // Maven Central リポジトリから依存関係を取得
     mavenCentral()
 }
 
 dependencies {
+    // === 本番用 ===
+
+    // Spring Data JPA（DBアクセス用ORM）
+    // 公式: https://docs.spring.io/spring-boot/reference/data/sql.html#data.sql.jpa-and-spring-data
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    // Spring MVC（REST API構築用）
+    // 公式: https://docs.spring.io/spring-boot/reference/web/servlet.html
     implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+    // Lombok（getter/constructorなどのボイラープレート削減）
+    // 公式: https://projectlombok.org/
     compileOnly 'org.projectlombok:lombok'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
-    runtimeOnly 'com.mysql:mysql-connector-j'
+    // Lombokのアノテーション処理（コンパイル時にコード生成）
     annotationProcessor 'org.projectlombok:lombok'
+
+    // === 開発用 ===
+
+    // DevTools（コード変更時の自動再起動など）
+    // 公式: https://docs.spring.io/spring-boot/reference/using/devtools.html
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    // Docker Compose連携（アプリ起動時にdocker compose up/downを自動実行）
+    // 公式: https://docs.spring.io/spring-boot/reference/features/dev-services.html#features.dev-services.docker-compose
+    developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
+    // MySQL JDBCドライバ（JavaからMySQLへの接続に必要）
+    // 実行時のみ使用（コード上で直接参照しない）
+    runtimeOnly 'com.mysql:mysql-connector-j'
+
+    // === テスト用 ===
+
+    // Spring MVC テスト（MockMvcによるControllerテスト用）
     testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+    // Spring Data JPA テスト（@DataJpaTestによるRepositoryテスト用）
     testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa-test'
-    testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+    // JUnit Platform（JUnit 5のテスト実行基盤）
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    // Testcontainers JDBC（jdbc:tc: URLによる自動コンテナ起動）
+    // 公式: https://java.testcontainers.org/modules/databases/jdbc/
+    testImplementation 'org.testcontainers:jdbc:1.20.4'
 }
 
 tasks.named('test') {
+    // JUnit 5 を使用してテストを実行
     useJUnitPlatform()
+}
+
+// コードフォーマット設定
+// 公式: https://github.com/diffplug/spotless/tree/main/plugin-gradle
+spotless {
+    java {
+        // Google Java Styleでフォーマット（インデント2スペース）
+        googleJavaFormat()
+
+        // 未使用import文の自動削除
+        removeUnusedImports()
+        // 行末の空白を削除
+        trimTrailingWhitespace()
+        // ファイル末尾に改行を追加
+        endWithNewline()
+    }
 }

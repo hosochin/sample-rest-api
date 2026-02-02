@@ -5,11 +5,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "orders")
@@ -17,18 +16,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 public class Order {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private String productName;
-    private Integer quantity;
-    private LocalDateTime createdAt;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer id;
 
-    public static Order mock() {
-        return new Order(
-                1,
-                "itemName",
-                2,
-                LocalDateTime.now()
-        );
-    }
+  private String productName;
+
+  private Integer quantity;
+
+  private LocalDateTime createdAt;
 }
