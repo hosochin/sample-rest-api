@@ -27,6 +27,7 @@ public class OrderService {
    * 注文情報を新規登録する
    *
    * @param updateCommand 更新情報
+   * @return 更新後の注文情報
    */
   public Order saveOrder(OrderUpdateCommand updateCommand) {
     return orderRepository.save(
@@ -37,7 +38,9 @@ public class OrderService {
   /**
    * 注文情報を更新する
    *
+   * @param id 更新対象のID
    * @param updateCommand 更新情報
+   * @return 更新後の注文情報
    */
   public Order updateOrder(int id, OrderUpdateCommand updateCommand) {
     var existing =
