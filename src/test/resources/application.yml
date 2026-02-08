@@ -3,15 +3,12 @@
 
 spring:
   datasource:
-    # Testcontainers JDBC URL
-    # "jdbc:tc:" プレフィックスにより、テスト実行時にDockerでMySQLコンテナを自動起動
-    # フォーマット: jdbc:tc:<イメージ名>:///<DB名>
-    # 公式: https://java.testcontainers.org/modules/databases/jdbc/
-    url: jdbc:tc:mysql:8.0:///orderdb
-    # Testcontainers用JDBCドライバ（jdbc:tc: URLを解釈してコンテナを起動する）
-    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    # H2インメモリDB（テストごとに独立したDB）
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
   jpa:
     hibernate:
       # テスト時はスキーマを自動作成し、終了時に削除
-      # 本番(validate)と異なり、テスト用DBにテーブルを自動生成するために必要
       ddl-auto: create-drop
