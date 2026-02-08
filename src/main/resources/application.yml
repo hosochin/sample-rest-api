@@ -9,20 +9,23 @@ spring:
   # データソース設定
   # 公式ドキュメント: https://docs.spring.io/spring-boot/reference/data/sql.html#data.sql.datasource
   datasource:
-    # JDBCドライバのクラス名（MySQL Connector/J 8.x用）
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    # JDBC接続URL（characterEncoding=UTF-8で文字化け防止）
-    url: jdbc:mysql://localhost:3306/orderdb?characterEncoding=UTF-8
-    # DB接続ユーザー名
-    username: root
-    # DB接続パスワード
-    password: root
+    # H2インメモリDB（アプリ終了時にデータ消失）
+    url: jdbc:h2:mem:orderdb;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
 
   # JPA設定
   # 公式ドキュメント: https://docs.spring.io/spring-boot/reference/data/sql.html#data.sql.jpa-and-spring-data
+  # SQL初期化の実行タイミング
+  # Hibernateによるテーブル作成後にdata.sqlを実行するために必要
+  sql:
+    init:
+      mode: always
+
   jpa:
-    # 使用するデータベースの種類
-    database: MYSQL
+    # data.sqlの実行をHibernateの初期化後に遅延させる
+    defer-datasource-initialization: true
     # 実行されるSQLをコンソールに出力（開発用、本番ではfalse推奨）
     show-sql: true
     hibernate:
@@ -31,4 +34,10 @@ spring:
       # - update: 差分を自動反映（開発用）
       # - create: 起動時に再作成
       # - create-drop: 起動時に作成、終了時に削除
-      ddl-auto: validate
+      ddl-auto: create-drop
+
+  # H2 Console（ブラウザからDBを確認できる開発ツール）
+  # http://localhost:8080/h2-console でアクセス
+  h2:
+    console:
+      enabled: true
