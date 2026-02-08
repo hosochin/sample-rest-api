@@ -1,13 +1,17 @@
 package com.example.cordingtest.presentation.controller.order;
 
+import com.example.cordingtest.domain.order.OrderNotFoundException;
 import com.example.cordingtest.presentation.controller.order.request.PostOrderRequest;
 import com.example.cordingtest.presentation.controller.order.request.PutOrderRequest;
 import com.example.cordingtest.presentation.controller.order.response.GetOrderListResponse;
 import com.example.cordingtest.service.order.OrderService;
 import jakarta.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,5 +46,14 @@ public class OrderController {
       @PathVariable Integer id, @Valid @RequestBody PutOrderRequest putOrderRequest) {
     var result = orderService.updateOrder(id, putOrderRequest.toOrderUpdateCommand());
     return GetOrderListResponse.fromOrder(result);
+  }
+
+  @ExceptionHandler(OrderNotFoundException.class)
+  public ProblemDetail handleOrderNotFoundException(OrderNotFoundException ex) {
+    ProblemDetail problemDetail =
+        ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
+    problemDetail.setTitle("Not Found");
+    problemDetail.setType(URI.create("about:blank"));
+    return problemDetail;
   }
 }

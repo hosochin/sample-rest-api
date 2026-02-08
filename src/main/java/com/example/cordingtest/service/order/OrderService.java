@@ -2,6 +2,7 @@ package com.example.cordingtest.service.order;
 
 import com.example.cordingtest.domain.order.Order;
 import com.example.cordingtest.domain.order.OrderUpdateCommand;
+import com.example.cordingtest.domain.order.OrderNotFoundException;
 import com.example.cordingtest.repository.order.OrderRepository;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -46,7 +47,7 @@ public class OrderService {
     var existing =
         orderRepository
             .findById(id)
-            .orElseThrow(() -> new RuntimeException("Order not found: " + id));
+            .orElseThrow(() -> new OrderNotFoundException(id));
     existing.update(updateCommand.productName(), updateCommand.quantity());
     return orderRepository.save(existing);
   }
