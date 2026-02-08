@@ -25,7 +25,10 @@ public class GlobalExceptionHandler {
             .collect(
                 Collectors.toMap(
                     FieldError::getField,
-                    error -> error.getDefaultMessage() != null ? error.getDefaultMessage() : "Invalid value",
+                    error ->
+                        error.getDefaultMessage() != null
+                            ? error.getDefaultMessage()
+                            : "Invalid value",
                     (existing, replacement) -> existing));
 
     problemDetail.setProperty("errors", fieldErrors);
@@ -35,7 +38,8 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(Exception.class)
   public ProblemDetail handleException(Exception ex) {
     ProblemDetail problemDetail =
-        ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred");
+        ProblemDetail.forStatusAndDetail(
+            HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred");
     problemDetail.setTitle("Internal Server Error");
     problemDetail.setType(URI.create("about:blank"));
     return problemDetail;
