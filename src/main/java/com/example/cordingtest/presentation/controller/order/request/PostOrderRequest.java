@@ -1,11 +1,11 @@
 package com.example.cordingtest.presentation.controller.order.request;
 
 import com.example.cordingtest.domain.order.OrderUpdateCommand;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
-public record PostOrderRequest(@NotBlank String productName, @NotNull @Positive Integer quantity) {
+public record PostOrderRequest(
+    @NotNull @Positive Integer productId, @NotNull @Positive Integer quantity) {
 
   /**
    * 注文情報に変換する
@@ -13,6 +13,6 @@ public record PostOrderRequest(@NotBlank String productName, @NotNull @Positive 
    * @return 受注情報
    */
   public OrderUpdateCommand toOrderUpdateCommand() {
-    return new OrderUpdateCommand(productName, quantity);
+    return new OrderUpdateCommand(productId, quantity);
   }
 }

@@ -20,14 +20,14 @@ public class Order {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  private String productName;
+  private Integer productId;
 
   private Integer quantity;
 
   private LocalDateTime createdAt;
 
-  public void update(String productName, Integer quantity) {
-    this.productName = productName;
+  public void update(Integer productId, Integer quantity) {
+    this.productId = productId;
     this.quantity = quantity;
   }
 }

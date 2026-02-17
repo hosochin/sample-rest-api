@@ -4,7 +4,7 @@ import com.example.cordingtest.domain.order.Order;
 import java.time.LocalDateTime;
 
 public record GetOrderListResponse(
-    Integer id, String productName, Integer quantity, LocalDateTime createdAt) {
+    Integer id, Integer productId, Integer quantity, LocalDateTime createdAt) {
 
   /**
    * 注文一覧取得のレスポンスに変換する
@@ -14,6 +14,6 @@ public record GetOrderListResponse(
    */
   public static GetOrderListResponse fromOrder(Order order) {
     return new GetOrderListResponse(
-        order.getId(), order.getProductName(), order.getQuantity(), order.getCreatedAt());
+        order.getId(), order.getProductId(), order.getQuantity(), order.getCreatedAt());
   }
 }

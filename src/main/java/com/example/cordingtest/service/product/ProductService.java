@@ -1,17 +1,18 @@
-package com.example.cordingtest.service.order;
+package com.example.cordingtest.service.product;
 
 import com.example.cordingtest.domain.order.Order;
 import com.example.cordingtest.domain.order.OrderNotFoundException;
 import com.example.cordingtest.domain.order.OrderUpdateCommand;
 import com.example.cordingtest.repository.order.OrderRepository;
-import java.time.LocalDateTime;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
-public class OrderService {
+public class ProductService {
 
   private final OrderRepository orderRepository;
 
