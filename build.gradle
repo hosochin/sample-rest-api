@@ -46,9 +46,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     // Lombok（getter/constructorなどのボイラープレート削減）
     // 公式: https://projectlombok.org/
-    compileOnly 'org.projectlombok:lombok'
+    compileOnly 'org.projectlombok:lombok:1.18.36'
+
     // Lombokのアノテーション処理（コンパイル時にコード生成）
-    annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok:1.18.36'
+
 
     // === 開発用 ===
 
